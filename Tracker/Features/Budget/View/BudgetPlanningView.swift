@@ -30,6 +30,9 @@ struct BudgetPlanningView: View {
         .task {
             await viewModel.load()
         }
+        .onChange(of: viewModel.currency) { _, _ in
+            Task { await viewModel.load() }
+        }
         .sheet(item: $sheet) { target in
             sheetView(for: target)
         }
@@ -63,6 +66,8 @@ struct BudgetPlanningView: View {
                     onNext: { Task { await viewModel.moveMonth(by: 1) } }
                 )
 
+                currencyRow
+
                 BudgetSummaryCard(summary: summary)
 
                 Button {
@@ -94,6 +99,20 @@ struct BudgetPlanningView: View {
                 }
             }
             .padding(Theme.Spacing.lg)
+        }
+    }
+
+    private var currencyRow: some View {
+        HStack {
+            Text("CURRENCY")
+                .font(Theme.Typography.label)
+                .foregroundStyle(Theme.Palette.subtleText)
+            Spacer()
+            CurrencyChip(
+                selection: $viewModel.currency,
+                currencies: viewModel.availableCurrencies
+            )
+            .accessibilityIdentifier("BudgetCurrencyChip")
         }
     }
 
