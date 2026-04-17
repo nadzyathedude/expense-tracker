@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import Combine
 
 @main
 struct TrackerApp: App {
+    @StateObject private var container = AppContainerHolder()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(container: container.value)
         }
     }
+}
+
+@MainActor
+final class AppContainerHolder: ObservableObject {
+    let value = AppContainer()
 }

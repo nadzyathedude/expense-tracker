@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    let container: AppContainer
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(container: AppContainer())
 }
