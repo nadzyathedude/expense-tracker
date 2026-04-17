@@ -18,7 +18,9 @@ struct AddExpenseView: View {
         ZStack(alignment: .top) {
             Theme.Palette.background.ignoresSafeArea()
 
-            content
+            ScrollView {
+                content
+            }
 
             if showSuccess {
                 SuccessOverlay()
@@ -31,6 +33,7 @@ struct AddExpenseView: View {
         .task {
             focus = .amount
         }
+        .accessibilityIdentifier("AddExpenseScreen")
     }
 
     private var content: some View {
@@ -39,8 +42,13 @@ struct AddExpenseView: View {
             heroBlock
             TitleField(text: $viewModel.title)
                 .focused($focus, equals: .title)
-            Spacer(minLength: 0)
+                .accessibilityIdentifier("TitleField")
+
+            categorySection
+            dateSection
+
             submitButton
+                .padding(.top, Theme.Spacing.md)
         }
         .padding(.horizontal, Theme.Spacing.lg)
         .padding(.vertical, Theme.Spacing.xl)
@@ -60,13 +68,42 @@ struct AddExpenseView: View {
         VStack(spacing: Theme.Spacing.md) {
             AmountHeroField(amount: $viewModel.amountText, symbol: viewModel.currency.symbol)
                 .focused($focus, equals: .amount)
+                .accessibilityIdentifier("AmountField")
             CurrencyChip(selection: $viewModel.currency, currencies: viewModel.availableCurrencies)
+                .accessibilityIdentifier("CurrencyChip")
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, Theme.Spacing.lg)
         .padding(.horizontal, Theme.Spacing.lg)
         .background(Theme.Palette.surface.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.chip, style: .continuous))
+    }
+
+    private var categorySection: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
+            Text("CATEGORY")
+                .font(Theme.Typography.label)
+                .foregroundStyle(Theme.Palette.subtleText)
+            CategoryPicker(
+                selection: $viewModel.category,
+                categories: viewModel.availableCategories
+            )
+        }
+    }
+
+    private var dateSection: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
+            Text("DATE")
+                .font(Theme.Typography.label)
+                .foregroundStyle(Theme.Palette.subtleText)
+            DatePicker(
+                "Date",
+                selection: $viewModel.date,
+                displayedComponents: .date
+            )
+            .labelsHidden()
+            .accessibilityIdentifier("DatePicker")
+        }
     }
 
     private var submitButton: some View {
@@ -80,6 +117,7 @@ struct AddExpenseView: View {
                 await viewModel.submit()
             }
         }
+        .accessibilityIdentifier("AddExpenseButton")
     }
 
     private func handle(event: AddExpenseEvent?) {
