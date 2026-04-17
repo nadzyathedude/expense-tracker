@@ -1,8 +1,3 @@
-//
-//  Currency.swift
-//  Tracker
-//
-
 import Foundation
 
 struct Currency: Identifiable, Hashable, Codable {

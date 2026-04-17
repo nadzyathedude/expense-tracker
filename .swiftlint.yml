@@ -1,0 +1,64 @@
+included:
+  - Tracker
+
+excluded:
+  - Tracker.xcodeproj
+  - .build
+  - build
+  - DerivedData
+
+disabled_rules:
+  - trailing_comma
+
+opt_in_rules:
+  - closure_spacing
+  - contains_over_first_not_nil
+  - empty_count
+  - empty_string
+  - explicit_init
+  - first_where
+  - force_unwrapping
+  - implicit_return
+  - last_where
+  - redundant_nil_coalescing
+  - sorted_imports
+  - unused_import
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+
+line_length:
+  warning: 120
+  error: 140
+  ignores_urls: true
+  ignores_comments: true
+
+file_length:
+  warning: 400
+  error: 600
+
+type_body_length:
+  warning: 300
+  error: 400
+
+function_body_length:
+  warning: 30
+  error: 50
+
+function_parameter_count:
+  warning: 6
+  error: 8
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  excluded:
+    - id
+    - to
+    - vm
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 50
+    error: 60
