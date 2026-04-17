@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 
 @MainActor
 final class AppContainer {
@@ -7,9 +8,8 @@ final class AppContainer {
     let setMonthlyBudgetUseCase: SetMonthlyBudgetUseCase
     let getMonthlyBudgetSummaryUseCase: GetMonthlyBudgetSummaryUseCase
 
-    init() {
-        let expenseDataSource = InMemoryExpenseDataSource()
-        let budgetDataSource = InMemoryBudgetDataSource()
+    init(persistence: Persistence = .swiftData) {
+        let (expenseDataSource, budgetDataSource) = Self.makeDataSources(for: persistence)
         self.expenseRepository = DefaultExpenseRepository(dataSource: expenseDataSource)
         self.budgetRepository = DefaultBudgetRepository(dataSource: budgetDataSource)
         self.setMonthlyBudgetUseCase = DefaultSetMonthlyBudgetUseCase(repository: budgetRepository)
@@ -28,5 +28,27 @@ final class AppContainer {
             summaryUseCase: getMonthlyBudgetSummaryUseCase,
             setBudgetUseCase: setMonthlyBudgetUseCase
         )
+    }
+
+    enum Persistence {
+        case swiftData
+        case inMemory
+    }
+
+    private static func makeDataSources(
+        for persistence: Persistence
+    ) -> (ExpenseDataSource, BudgetDataSource) {
+        switch persistence {
+        case .swiftData:
+            if let container = try? PersistenceStack.makeContainer() {
+                return (
+                    SwiftDataExpenseDataSource(modelContainer: container),
+                    SwiftDataBudgetDataSource(modelContainer: container)
+                )
+            }
+            return (InMemoryExpenseDataSource(), InMemoryBudgetDataSource())
+        case .inMemory:
+            return (InMemoryExpenseDataSource(), InMemoryBudgetDataSource())
+        }
     }
 }
