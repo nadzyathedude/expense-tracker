@@ -1,14 +1,18 @@
 import Foundation
+import SwiftData
 
 @MainActor
 final class AppContainer {
     let expenseRepository: ExpenseRepository
     let settingsRepository: SettingsRepository
+    let modelContainer: ModelContainer
     let biometricService: BiometricAuthService
     let appLockPreferences: AppLockPreferencesStore
 
-    init() {
-        let dataSource = InMemoryExpenseDataSource()
+    init(inMemory: Bool = false) {
+        let container = PersistenceFactory.makeContainer(inMemory: inMemory)
+        self.modelContainer = container
+        let dataSource = SwiftDataExpenseDataSource(modelContainer: container)
         self.expenseRepository = DefaultExpenseRepository(dataSource: dataSource)
         self.settingsRepository = UserDefaultsSettingsRepository()
         self.biometricService = LocalAuthBiometricService()
@@ -25,6 +29,10 @@ final class AppContainer {
 
     func makeSettingsViewModel() -> SettingsViewModel {
         SettingsViewModel(repository: settingsRepository)
+    }
+
+    func makeAnalyticsViewModel() -> AnalyticsViewModel {
+        AnalyticsViewModel(repository: expenseRepository)
     }
 
     func makeAppLockViewModel() -> AppLockViewModel {

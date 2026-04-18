@@ -29,6 +29,11 @@ struct ContentView: View {
                     .tabItem {
                         Label("List", systemImage: "list.bullet")
                     }
+
+                AnalyticsView(viewModel: container.makeAnalyticsViewModel())
+                    .tabItem {
+                        Label("Analytics", systemImage: "chart.pie.fill")
+                    }
             }
             .overlay(alignment: .topTrailing) {
                 Button {
