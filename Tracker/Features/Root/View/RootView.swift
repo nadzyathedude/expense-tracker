@@ -35,6 +35,11 @@ struct RootView: View {
                 .tabItem {
                     Label("List", systemImage: "list.bullet")
                 }
+
+            AnalyticsView(viewModel: container.makeAnalyticsViewModel())
+                .tabItem {
+                    Label("Analytics", systemImage: "chart.pie.fill")
+                }
         }
     }
 
@@ -62,7 +67,7 @@ struct RootView: View {
         case .list:
             ExpenseListView(viewModel: container.makeExpenseListViewModel())
         case .analytics:
-            ComingSoonView(title: "Analytics", systemImage: "chart.pie")
+            AnalyticsView(viewModel: container.makeAnalyticsViewModel())
         case .budgets:
             ComingSoonView(title: "Budgets", systemImage: "chart.bar.doc.horizontal")
         case .recurring:
