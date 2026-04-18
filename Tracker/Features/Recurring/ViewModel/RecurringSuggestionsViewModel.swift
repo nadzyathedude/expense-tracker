@@ -32,7 +32,7 @@ final class RecurringSuggestionsViewModel: ObservableObject {
             let candidates = useCase.execute(expenses: expenses, dismissedIds: dismissed)
             state = .success(candidates)
         } catch {
-            state = .error("Couldn't detect recurring expenses.")
+            state = .failure("Couldn't detect recurring expenses.")
         }
     }
 

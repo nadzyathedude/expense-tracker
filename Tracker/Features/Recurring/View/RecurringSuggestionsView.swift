@@ -41,13 +41,13 @@ struct RecurringSuggestionsView: View {
                 )
             }
             .listStyle(.plain)
-        case .error(let message):
+        case .failure(let message):
             Text(message).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 
     private var empty: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Image(systemName: "sparkles")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
@@ -69,7 +69,7 @@ private struct CandidateRow: View {
     let onDismiss: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
             HStack {
                 Text(candidate.title)
                     .font(.body.weight(.medium))
