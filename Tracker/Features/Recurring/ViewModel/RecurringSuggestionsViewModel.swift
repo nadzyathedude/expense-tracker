@@ -27,7 +27,7 @@ final class RecurringSuggestionsViewModel: ObservableObject {
     func load() async {
         state = .loading
         do {
-            let expenses = try await repository.all()
+            let expenses = try await repository.fetchAll()
             let dismissed = dismissedStore.load()
             let candidates = useCase.execute(expenses: expenses, dismissedIds: dismissed)
             state = .success(candidates)

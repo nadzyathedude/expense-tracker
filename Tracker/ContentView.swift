@@ -24,6 +24,11 @@ struct ContentView: View {
                     Label("Add", systemImage: "plus.circle")
                 }
 
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
+                .tabItem {
+                    Label("List", systemImage: "list.bullet")
+                }
+
             RecurringSuggestionsView(
                 viewModel: container.makeRecurringSuggestionsViewModel(),
                 onAccept: { _ in }
