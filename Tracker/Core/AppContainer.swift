@@ -19,6 +19,10 @@ final class AppContainer {
         AddExpenseViewModel(repository: expenseRepository)
     }
 
+    func makeExpenseListViewModel() -> ExpenseListViewModel {
+        ExpenseListViewModel(repository: expenseRepository)
+    }
+
     func makeSettingsViewModel() -> SettingsViewModel {
         SettingsViewModel(repository: settingsRepository)
     }
