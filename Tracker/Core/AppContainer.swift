@@ -70,6 +70,10 @@ final class AppContainer {
         RecurringExpensesViewModel(repository: recurringExpenseRepository)
     }
 
+    func makeExportViewModel() -> ExportViewModel {
+        ExportViewModel(useCase: ExportUseCase(repository: expenseRepository))
+    }
+
     func makeRecurringSuggestionsViewModel() -> RecurringSuggestionsViewModel {
         RecurringSuggestionsViewModel(
             repository: expenseRepository,
