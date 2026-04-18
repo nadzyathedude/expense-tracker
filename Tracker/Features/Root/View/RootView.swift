@@ -74,6 +74,8 @@ struct RootView: View {
             RecurringExpensesView(viewModel: container.makeRecurringExpensesViewModel())
         case .upcoming:
             UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
+        case .export:
+            ExportView(viewModel: container.makeExportViewModel())
         case .settings:
             ComingSoonView(title: "Settings", systemImage: "gearshape")
         }

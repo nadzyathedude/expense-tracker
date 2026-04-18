@@ -75,6 +75,10 @@ final class AppContainer {
         RecurringExpensesViewModel(repository: recurringExpenseRepository)
     }
 
+    func makeExportViewModel() -> ExportViewModel {
+        ExportViewModel(useCase: ExportUseCase(repository: expenseRepository))
+    }
+
     func makeAppLockViewModel() -> AppLockViewModel {
         AppLockViewModel(service: biometricService, preferences: appLockPreferences)
     }
