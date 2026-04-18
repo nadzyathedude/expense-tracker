@@ -25,7 +25,7 @@ final class BudgetsViewModel: ObservableObject {
             let items = try await repository.fetchAll()
             state = .success(items)
         } catch {
-            state = .error("Couldn't load budgets.")
+            state = .failure("Couldn't load budgets.")
         }
     }
 
@@ -38,7 +38,7 @@ final class BudgetsViewModel: ObservableObject {
             try await repository.add(budget)
             await load()
         } catch {
-            state = .error("Couldn't save budget.")
+            state = .failure("Couldn't save budget.")
         }
     }
 
@@ -48,7 +48,7 @@ final class BudgetsViewModel: ObservableObject {
             await notifications.cancel(id: id.uuidString)
             await load()
         } catch {
-            state = .error("Couldn't delete budget.")
+            state = .failure("Couldn't delete budget.")
         }
     }
 }

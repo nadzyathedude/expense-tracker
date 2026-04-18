@@ -58,7 +58,7 @@ struct BudgetsView: View {
                 }
             }
             .listStyle(.plain)
-        case .error(let message):
+        case .failure(let message):
             Text(message)
                 .font(.subheadline)
                 .foregroundStyle(Theme.Palette.subtleText)
@@ -67,7 +67,7 @@ struct BudgetsView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Image(systemName: "chart.bar.doc.horizontal")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
@@ -86,7 +86,7 @@ private struct BudgetRow: View {
     let budget: Budget
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.m) {
+        HStack(spacing: Theme.Spacing.md) {
             VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
                 Text(budget.categoryKey.capitalized)
                     .font(.body.weight(.medium))
