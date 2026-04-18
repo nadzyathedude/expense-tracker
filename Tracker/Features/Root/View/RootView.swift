@@ -69,7 +69,7 @@ struct RootView: View {
         case .analytics:
             AnalyticsView(viewModel: container.makeAnalyticsViewModel())
         case .budgets:
-            ComingSoonView(title: "Budgets", systemImage: "chart.bar.doc.horizontal")
+            BudgetsView(viewModel: container.makeBudgetsViewModel())
         case .recurring:
             ComingSoonView(title: "Recurring", systemImage: "arrow.triangle.2.circlepath")
         case .upcoming:
