@@ -18,23 +18,25 @@ struct ContentView: View {
     }
 
     var body: some View {
-        RootView(container: container)
-            .overlay(alignment: .topTrailing) {
-                Button {
-                    isSettingsPresented = true
-                } label: {
-                    Image(systemName: "gearshape")
-                        .font(.title3)
-                        .foregroundStyle(Theme.Palette.subtleText)
-                        .padding(Theme.Spacing.md)
-                        .contentShape(Rectangle())
+        AppLockGate(viewModel: container.makeAppLockViewModel()) {
+            RootView(container: container)
+                .overlay(alignment: .topTrailing) {
+                    Button {
+                        isSettingsPresented = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .font(.title3)
+                            .foregroundStyle(Theme.Palette.subtleText)
+                            .padding(Theme.Spacing.md)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel(Text("Settings"))
                 }
-                .accessibilityLabel(Text("Settings"))
-            }
-            .sheet(isPresented: $isSettingsPresented) {
-                SettingsView(viewModel: settingsViewModel)
-            }
-            .preferredColorScheme(settingsViewModel.theme.colorScheme)
+                .sheet(isPresented: $isSettingsPresented) {
+                    SettingsView(viewModel: settingsViewModel)
+                }
+                .preferredColorScheme(settingsViewModel.theme.colorScheme)
+        }
     }
 }
 
