@@ -11,6 +11,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
     case analytics
     case budgets
     case recurring
+    case upcoming
     case export
     case settings
 
@@ -23,6 +24,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
         case .analytics: return "Analytics"
         case .budgets: return "Budgets"
         case .recurring: return "Recurring"
+        case .upcoming: return "Upcoming"
         case .export: return "Export"
         case .settings: return "Settings"
         }
@@ -35,6 +37,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
         case .analytics: return "chart.pie"
         case .budgets: return "chart.bar.doc.horizontal"
         case .recurring: return "arrow.triangle.2.circlepath"
+        case .upcoming: return "calendar"
         case .export: return "square.and.arrow.up"
         case .settings: return "gearshape"
         }
