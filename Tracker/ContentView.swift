@@ -11,7 +11,17 @@ struct ContentView: View {
     let container: AppContainer
 
     var body: some View {
-        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+        TabView {
+            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+                .tabItem {
+                    Label("Add", systemImage: "plus.circle")
+                }
+
+            UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
+                .tabItem {
+                    Label("Upcoming", systemImage: "calendar")
+                }
+        }
     }
 }
 
