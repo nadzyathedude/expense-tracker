@@ -24,6 +24,11 @@ struct ContentView: View {
                     Label("Add", systemImage: "plus.circle")
                 }
 
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
+                .tabItem {
+                    Label("List", systemImage: "list.bullet")
+                }
+
             AnalyticsView(viewModel: container.makeAnalyticsViewModel())
                 .tabItem {
                     Label("Analytics", systemImage: "chart.pie.fill")

@@ -27,7 +27,7 @@ final class AnalyticsViewModel: ObservableObject {
     func load() async {
         state = .loading
         do {
-            let expenses = try await repository.all()
+            let expenses = try await repository.fetchAll()
             let summary = useCase.execute(expenses: expenses, currencyCode: selectedCurrency.code)
             state = .success(summary)
         } catch {
