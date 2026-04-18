@@ -11,7 +11,7 @@ struct ContentView: View {
     let container: AppContainer
 
     var body: some View {
-        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+        RootView(container: container)
     }
 }
 
