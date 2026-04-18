@@ -9,6 +9,7 @@ final class AppContainer {
     let apiClient: APIClient
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
+    let recurringExpenseRepository: RecurringExpenseRepository
 
     init(cloudKit: Bool = true, inMemory: Bool = false) {
         let container = PersistenceFactory.makeContainer(cloudKit: cloudKit, inMemory: inMemory)
@@ -28,6 +29,8 @@ final class AppContainer {
         }
         self.currencyRateRepository = DefaultCurrencyRateRepository(client: client, cache: cache)
         self.baseCurrencyStore = UserDefaultsBaseCurrencyStore()
+
+        self.recurringExpenseRepository = InMemoryRecurringExpenseRepository()
     }
 
     func makeAddExpenseViewModel() -> AddExpenseViewModel {
@@ -48,6 +51,10 @@ final class AppContainer {
 
     func makeConvertCurrencyUseCase() -> ConvertCurrencyUseCase {
         ConvertCurrencyUseCase(repository: currencyRateRepository)
+    }
+
+    func makeUpcomingChargesCalendarViewModel() -> UpcomingChargesCalendarViewModel {
+        UpcomingChargesCalendarViewModel(repository: recurringExpenseRepository)
     }
 }
 
