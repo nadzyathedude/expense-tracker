@@ -24,6 +24,11 @@ struct ContentView: View {
                     Label("Add", systemImage: "plus.circle")
                 }
 
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
+                .tabItem {
+                    Label("List", systemImage: "list.bullet")
+                }
+
             UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
                 .tabItem {
                     Label("Upcoming", systemImage: "calendar")
