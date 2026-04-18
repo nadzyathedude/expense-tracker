@@ -45,12 +45,25 @@ struct AddExpenseView: View {
             heroBlock
             TitleField(text: $viewModel.title)
                 .focused($focus, equals: .title)
+            categoryBlock
             scanButton
             Spacer(minLength: 0)
             submitButton
         }
         .padding(.horizontal, Theme.Spacing.lg)
         .padding(.vertical, Theme.Spacing.xl)
+    }
+
+    private var categoryBlock: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
+            Text("Category")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.Palette.subtleText)
+            CategoryPicker(
+                selection: $viewModel.category,
+                categories: viewModel.availableCategories
+            )
+        }
     }
 
     private var header: some View {
