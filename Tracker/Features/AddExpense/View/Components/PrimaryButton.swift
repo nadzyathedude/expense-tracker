@@ -1,8 +1,3 @@
-//
-//  PrimaryButton.swift
-//  Tracker
-//
-
 import SwiftUI
 
 struct PrimaryButton: View {
@@ -24,13 +19,15 @@ struct PrimaryButton: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 56)
-            .background(
-                RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
-                    .fill(isEnabled ? Theme.Palette.accent : Theme.Palette.accent.opacity(0.35))
-            )
+            .background(background)
             .foregroundStyle(.white)
         }
         .disabled(!isEnabled)
         .animation(.easeInOut(duration: 0.2), value: isEnabled)
+    }
+
+    private var background: some View {
+        RoundedRectangle(cornerRadius: Theme.Radius.button, style: .continuous)
+            .fill(isEnabled ? Theme.Palette.accent : Theme.Palette.accent.opacity(0.35))
     }
 }

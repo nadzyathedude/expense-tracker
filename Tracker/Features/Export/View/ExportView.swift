@@ -61,7 +61,7 @@ struct ExportView: View {
                     Label("Share \(file.format.displayName)", systemImage: "square.and.arrow.up")
                 }
             }
-        case .error(let message):
+        case .failure(let message):
             Section {
                 Text(message)
                     .font(.footnote)

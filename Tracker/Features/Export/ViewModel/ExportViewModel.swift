@@ -29,7 +29,7 @@ final class ExportViewModel: ObservableObject {
             let file = try await useCase.execute(range: range, format: format)
             state = .success(file)
         } catch {
-            state = .error("Couldn't create export. Please try again.")
+            state = .failure("Couldn't create export. Please try again.")
         }
     }
 
