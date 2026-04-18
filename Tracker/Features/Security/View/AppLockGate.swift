@@ -42,7 +42,7 @@ struct AppLockGate<Content: View>: View {
     }
 
     private var lockCover: some View {
-        VStack(spacing: Theme.Spacing.l) {
+        VStack(spacing: Theme.Spacing.lg) {
             Image(systemName: "lock.shield")
                 .font(.system(size: 56))
                 .foregroundStyle(Theme.Palette.accent)
@@ -53,15 +53,15 @@ struct AppLockGate<Content: View>: View {
                     .font(.footnote)
                     .foregroundStyle(Theme.Palette.subtleText)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, Theme.Spacing.l)
+                    .padding(.horizontal, Theme.Spacing.lg)
             }
             Button {
                 Task { await viewModel.authenticate() }
             } label: {
                 Label("Unlock", systemImage: "faceid")
                     .font(.body.weight(.semibold))
-                    .padding(.horizontal, Theme.Spacing.l)
-                    .padding(.vertical, Theme.Spacing.s + 4)
+                    .padding(.horizontal, Theme.Spacing.lg)
+                    .padding(.vertical, Theme.Spacing.sm + 4)
             }
             .buttonStyle(.borderedProminent)
             .disabled(viewModel.state == .authenticating)
