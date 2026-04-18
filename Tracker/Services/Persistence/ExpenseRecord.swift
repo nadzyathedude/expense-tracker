@@ -8,7 +8,7 @@ import SwiftData
 
 @Model
 final class ExpenseRecord {
-    @Attribute(.unique) var id: UUID
+    var id: UUID = UUID()
     var title: String = ""
     var amount: Decimal = 0
     var currencyCode: String = "USD"
