@@ -10,7 +10,7 @@ struct ComingSoonView: View {
     let systemImage: String
 
     var body: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Image(systemName: systemImage)
                 .font(.system(size: 48))
                 .foregroundStyle(Theme.Palette.subtleText)

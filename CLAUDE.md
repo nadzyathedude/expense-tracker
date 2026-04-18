@@ -308,3 +308,42 @@ When generating code:
 6. NEVER use global mutable state
 7. NEVER use force unwrap
 8. ALWAYS keep files small and modular
+
+---
+
+## Code Quality Enforcement
+
+### SwiftFormat rules
+
+- SwiftFormat is REQUIRED
+- Code MUST be auto-formatted before commit
+- CI MUST fail if formatting is not applied
+- Developers MUST run SwiftFormat locally
+
+### SwiftLint rules
+
+- SwiftLint is REQUIRED
+- Code MUST pass SwiftLint with `--strict`
+- No warnings allowed in CI
+- Lint errors MUST block merge
+
+### Combined rules
+
+- SwiftFormat MUST run BEFORE SwiftLint
+- Generated code MUST comply with both tools
+- No manual formatting that conflicts with SwiftFormat
+
+### Forbidden
+
+- Committing unformatted code
+- Ignoring SwiftLint errors
+- Disabling rules without explicit justification
+
+### AI-specific rules
+
+- ALWAYS generate code compatible with SwiftFormat
+- ALWAYS generate code that passes SwiftLint
+- NEVER use:
+  - `print()`
+  - force unwrap (`!`)
+  - blocking main thread operations
