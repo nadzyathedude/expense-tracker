@@ -18,23 +18,33 @@ struct ContentView: View {
     }
 
     var body: some View {
-        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
-            .overlay(alignment: .topTrailing) {
-                Button {
-                    isSettingsPresented = true
-                } label: {
-                    Image(systemName: "gearshape")
-                        .font(.title3)
-                        .foregroundStyle(Theme.Palette.subtleText)
-                        .padding(Theme.Spacing.m)
-                        .contentShape(Rectangle())
+        TabView {
+            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+                .tabItem {
+                    Label("Add", systemImage: "plus.circle")
                 }
-                .accessibilityLabel(Text("Settings"))
+
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
+                .tabItem {
+                    Label("List", systemImage: "list.bullet")
+                }
+        }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                isSettingsPresented = true
+            } label: {
+                Image(systemName: "gearshape")
+                    .font(.title3)
+                    .foregroundStyle(Theme.Palette.subtleText)
+                    .padding(Theme.Spacing.md)
+                    .contentShape(Rectangle())
             }
-            .sheet(isPresented: $isSettingsPresented) {
-                SettingsView(viewModel: settingsViewModel)
-            }
-            .preferredColorScheme(settingsViewModel.theme.colorScheme)
+            .accessibilityLabel(Text("Settings"))
+        }
+        .sheet(isPresented: $isSettingsPresented) {
+            SettingsView(viewModel: settingsViewModel)
+        }
+        .preferredColorScheme(settingsViewModel.theme.colorScheme)
     }
 }
 
