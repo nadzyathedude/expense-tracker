@@ -1,11 +1,6 @@
-//
-//  ExpenseRepository.swift
-//  Tracker
-//
-
 import Foundation
 
-protocol ExpenseRepository {
+protocol ExpenseRepository: Sendable {
     func add(_ expense: Expense) async throws
     func all() async throws -> [Expense]
 }

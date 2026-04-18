@@ -1,14 +1,9 @@
-//
-//  AddExpenseViewModel.swift
-//  Tracker
-//
-
-import Foundation
 import Combine
+import Foundation
 
 enum AddExpenseEvent: Equatable {
-    case expenseAdded
-    case showError(String)
+    case added(Expense)
+    case failed(String)
 }
 
 @MainActor
@@ -29,27 +24,31 @@ final class AddExpenseViewModel: ObservableObject {
         self.repository = repository
     }
 
-    var isSubmitEnabled: Bool {
-        !title.trimmingCharacters(in: .whitespaces).isEmpty
-            && parsedAmount != nil
-            && !state.isLoading
+    var canSubmit: Bool {
+        guard !state.isLoading else {
+            return false
+        }
+        guard !trimmedTitle.isEmpty else {
+            return false
+        }
+        return parsedAmount != nil
     }
 
-    func addExpense() async {
+    func submit() async {
         guard let amount = parsedAmount else {
-            event = .showError("Please enter a valid amount")
+            event = .failed("Please enter a valid amount")
             return
         }
 
-        let trimmedTitle = title.trimmingCharacters(in: .whitespaces)
-        guard !trimmedTitle.isEmpty else {
-            event = .showError("Please enter a title")
+        let title = trimmedTitle
+        guard !title.isEmpty else {
+            event = .failed("Please enter a title")
             return
         }
 
         state = .loading
         let expense = Expense(
-            title: trimmedTitle,
+            title: title,
             amount: amount,
             currency: currency,
             category: category
@@ -58,17 +57,23 @@ final class AddExpenseViewModel: ObservableObject {
         do {
             try await repository.add(expense)
             state = .success(expense)
-            event = .expenseAdded
+            event = .added(expense)
             resetForm()
         } catch {
-            state = .error("Couldn't save expense. Please try again.")
-            event = .showError("Couldn't save expense. Please try again.")
+            state = .failure("Couldn't save expense. Please try again.")
+            event = .failed("Couldn't save expense. Please try again.")
         }
+    }
+
+    private var trimmedTitle: String {
+        title.trimmingCharacters(in: .whitespaces)
     }
 
     private var parsedAmount: Decimal? {
         let normalized = amountText.replacingOccurrences(of: ",", with: ".")
-        guard let value = Decimal(string: normalized), value > 0 else { return nil }
+        guard let value = Decimal(string: normalized), value > 0 else {
+            return nil
+        }
         return value
     }
 

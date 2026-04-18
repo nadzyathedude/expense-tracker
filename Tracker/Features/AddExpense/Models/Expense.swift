@@ -1,8 +1,3 @@
-//
-//  Expense.swift
-//  Tracker
-//
-
 import Foundation
 
 struct Expense: Identifiable, Hashable, Codable {
