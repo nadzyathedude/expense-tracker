@@ -12,6 +12,8 @@ final class AppContainer {
     let recurringExpenseRepository: RecurringExpenseRepository
     let budgetRepository: BudgetRepository
     let notificationService: NotificationService
+    let biometricService: BiometricAuthService
+    let appLockPreferences: AppLockPreferencesStore
 
     init(cloudKit: Bool = true, inMemory: Bool = false) {
         let container = PersistenceFactory.makeContainer(cloudKit: cloudKit, inMemory: inMemory)
@@ -36,6 +38,9 @@ final class AppContainer {
 
         self.budgetRepository = InMemoryBudgetRepository()
         self.notificationService = LocalNotificationService()
+
+        self.biometricService = LocalAuthBiometricService()
+        self.appLockPreferences = UserDefaultsAppLockPreferencesStore()
     }
 
     func makeAddExpenseViewModel() -> AddExpenseViewModel {
@@ -72,6 +77,10 @@ final class AppContainer {
 
     func makeExportViewModel() -> ExportViewModel {
         ExportViewModel(useCase: ExportUseCase(repository: expenseRepository))
+    }
+
+    func makeAppLockViewModel() -> AppLockViewModel {
+        AppLockViewModel(service: biometricService, preferences: appLockPreferences)
     }
 }
 
