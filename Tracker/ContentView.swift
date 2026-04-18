@@ -29,6 +29,11 @@ struct ContentView: View {
                     Label("List", systemImage: "list.bullet")
                 }
 
+            AnalyticsView(viewModel: container.makeAnalyticsViewModel())
+                .tabItem {
+                    Label("Analytics", systemImage: "chart.pie.fill")
+                }
+
             RecurringExpensesView(viewModel: container.makeRecurringExpensesViewModel())
                 .tabItem {
                     Label("Recurring", systemImage: "arrow.triangle.2.circlepath")
