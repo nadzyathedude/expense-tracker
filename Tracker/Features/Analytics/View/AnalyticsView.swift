@@ -16,11 +16,11 @@ struct AnalyticsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: Theme.Spacing.l) {
+                VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
                     currencyPicker
                     content
                 }
-                .padding(Theme.Spacing.l)
+                .padding(Theme.Spacing.lg)
             }
             .navigationTitle("Analytics")
         }
@@ -54,7 +54,7 @@ struct AnalyticsView: View {
             totalsSection(summary)
             trendSection(summary)
             currencyShareSection(summary)
-        case .error(let message):
+        case .failure(let message):
             Text(message)
                 .font(.subheadline)
                 .foregroundStyle(Theme.Palette.subtleText)
@@ -63,9 +63,9 @@ struct AnalyticsView: View {
     }
 
     private func totalsSection(_ summary: SpendingSummary) -> some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
             sectionTitle("Totals")
-            HStack(spacing: Theme.Spacing.m) {
+            HStack(spacing: Theme.Spacing.md) {
                 totalCard("Today", amount: summary.today)
                 totalCard("Week", amount: summary.thisWeek)
                 totalCard("Month", amount: summary.thisMonth)
@@ -82,13 +82,13 @@ struct AnalyticsView: View {
                 .font(.headline.monospacedDigit())
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(Theme.Spacing.m)
+        .padding(Theme.Spacing.md)
         .background(Theme.Palette.surface)
-        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.chip, style: .continuous))
     }
 
     private func trendSection(_ summary: SpendingSummary) -> some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
             sectionTitle("Trend (30 days)")
             Chart(summary.daily) { point in
                 LineMark(
@@ -103,7 +103,7 @@ struct AnalyticsView: View {
     }
 
     private func currencyShareSection(_ summary: SpendingSummary) -> some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
             sectionTitle("By currency")
             if summary.byCurrency.isEmpty {
                 Text("No data yet")

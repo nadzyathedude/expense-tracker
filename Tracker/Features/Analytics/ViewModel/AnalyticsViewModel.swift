@@ -31,7 +31,7 @@ final class AnalyticsViewModel: ObservableObject {
             let summary = useCase.execute(expenses: expenses, currencyCode: selectedCurrency.code)
             state = .success(summary)
         } catch {
-            state = .error("Couldn't compute analytics. Please try again.")
+            state = .failure("Couldn't compute analytics. Please try again.")
         }
     }
 }
