@@ -39,7 +39,7 @@ nonisolated struct ExportUseCase: Sendable {
     }
 
     func execute(range: DateInterval, format: ExportFormat) async throws -> ExportedFile {
-        let all = try await repository.all()
+        let all = try await repository.fetchAll()
         let filtered = all
             .filter { range.contains($0.createdAt) }
             .sorted { $0.createdAt < $1.createdAt }
