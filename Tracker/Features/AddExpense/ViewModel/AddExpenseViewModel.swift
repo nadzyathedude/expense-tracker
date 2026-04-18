@@ -11,10 +11,13 @@ final class AddExpenseViewModel: ObservableObject {
     @Published var title: String = ""
     @Published var amountText: String = ""
     @Published var currency: Currency = .usd
+    @Published var category: ExpenseCategory?
+    @Published var date: Date = Date()
     @Published private(set) var state: ViewState<Expense> = .idle
     @Published var event: AddExpenseEvent?
 
     let availableCurrencies: [Currency] = Currency.all
+    let availableCategories: [ExpenseCategory] = ExpenseCategory.all
 
     private let repository: ExpenseRepository
 
@@ -45,7 +48,13 @@ final class AddExpenseViewModel: ObservableObject {
         }
 
         state = .loading
-        let expense = Expense(title: title, amount: amount, currency: currency)
+        let expense = Expense(
+            title: title,
+            amount: amount,
+            currency: currency,
+            category: category,
+            date: date
+        )
 
         do {
             try await repository.add(expense)
@@ -73,5 +82,7 @@ final class AddExpenseViewModel: ObservableObject {
     private func resetForm() {
         title = ""
         amountText = ""
+        category = nil
+        date = Date()
     }
 }
