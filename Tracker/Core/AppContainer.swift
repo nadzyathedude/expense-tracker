@@ -9,6 +9,7 @@ final class AppContainer {
     let apiClient: APIClient
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
+    let recurringExpenseRepository: RecurringExpenseRepository
     let budgetRepository: BudgetRepository
     let notificationService: NotificationService
 
@@ -30,6 +31,8 @@ final class AppContainer {
         }
         self.currencyRateRepository = DefaultCurrencyRateRepository(client: client, cache: cache)
         self.baseCurrencyStore = UserDefaultsBaseCurrencyStore()
+
+        self.recurringExpenseRepository = InMemoryRecurringExpenseRepository()
 
         self.budgetRepository = InMemoryBudgetRepository()
         self.notificationService = LocalNotificationService()
@@ -53,6 +56,10 @@ final class AppContainer {
 
     func makeConvertCurrencyUseCase() -> ConvertCurrencyUseCase {
         ConvertCurrencyUseCase(repository: currencyRateRepository)
+    }
+
+    func makeUpcomingChargesCalendarViewModel() -> UpcomingChargesCalendarViewModel {
+        UpcomingChargesCalendarViewModel(repository: recurringExpenseRepository)
     }
 
     func makeBudgetsViewModel() -> BudgetsViewModel {
