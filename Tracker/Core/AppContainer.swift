@@ -1,8 +1,3 @@
-//
-//  AppContainer.swift
-//  Tracker
-//
-
 import Foundation
 
 @MainActor
