@@ -1,15 +1,19 @@
 import Foundation
+import SwiftData
 
 @MainActor
 final class AppContainer {
     let expenseRepository: ExpenseRepository
     let settingsRepository: SettingsRepository
+    let modelContainer: ModelContainer
     let apiClient: APIClient
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
 
-    init() {
-        let dataSource = InMemoryExpenseDataSource()
+    init(inMemory: Bool = false) {
+        let container = PersistenceFactory.makeContainer(inMemory: inMemory)
+        self.modelContainer = container
+        let dataSource = SwiftDataExpenseDataSource(modelContainer: container)
         self.expenseRepository = DefaultExpenseRepository(dataSource: dataSource)
         self.settingsRepository = UserDefaultsSettingsRepository()
 
@@ -36,6 +40,10 @@ final class AppContainer {
 
     func makeSettingsViewModel() -> SettingsViewModel {
         SettingsViewModel(repository: settingsRepository)
+    }
+
+    func makeAnalyticsViewModel() -> AnalyticsViewModel {
+        AnalyticsViewModel(repository: expenseRepository)
     }
 
     func makeConvertCurrencyUseCase() -> ConvertCurrencyUseCase {
