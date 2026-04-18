@@ -69,4 +69,13 @@ final class AddExpenseViewModel: ObservableObject {
         title = ""
         amountText = ""
     }
+
+    func apply(_ receipt: ParsedReceipt) {
+        if let merchant = receipt.merchant, title.isEmpty {
+            title = merchant
+        }
+        if let amount = receipt.amount, amountText.isEmpty {
+            amountText = "\(amount)"
+        }
+    }
 }
