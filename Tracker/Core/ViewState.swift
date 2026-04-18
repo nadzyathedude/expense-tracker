@@ -1,20 +1,17 @@
-//
-//  ViewState.swift
-//  Tracker
-//
-
 import Foundation
 
-enum ViewState<T> {
+enum ViewState<Value> {
     case idle
     case loading
-    case success(T)
-    case error(String)
+    case success(Value)
+    case failure(String)
 }
 
 extension ViewState {
     var isLoading: Bool {
-        if case .loading = self { return true }
+        if case .loading = self {
+            return true
+        }
         return false
     }
 }

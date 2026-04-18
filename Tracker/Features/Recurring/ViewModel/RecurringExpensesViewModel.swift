@@ -22,7 +22,7 @@ final class RecurringExpensesViewModel: ObservableObject {
             let items = try await repository.fetchAll()
             state = .success(items)
         } catch {
-            state = .error("Couldn't load recurring expenses.")
+            state = .failure("Couldn't load recurring expenses.")
         }
     }
 
@@ -31,7 +31,7 @@ final class RecurringExpensesViewModel: ObservableObject {
             try await repository.add(recurring)
             await load()
         } catch {
-            state = .error("Couldn't save recurring expense.")
+            state = .failure("Couldn't save recurring expense.")
         }
     }
 
@@ -40,7 +40,7 @@ final class RecurringExpensesViewModel: ObservableObject {
             try await repository.delete(id: id)
             await load()
         } catch {
-            state = .error("Couldn't delete recurring expense.")
+            state = .failure("Couldn't delete recurring expense.")
         }
     }
 }

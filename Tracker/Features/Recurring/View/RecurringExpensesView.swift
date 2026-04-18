@@ -39,7 +39,7 @@ struct RecurringExpensesView: View {
         case .idle, .loading:
             ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
         case .success(let items) where items.isEmpty:
-            VStack(spacing: Theme.Spacing.m) {
+            VStack(spacing: Theme.Spacing.md) {
                 Image(systemName: "arrow.triangle.2.circlepath")
                     .font(.largeTitle)
                     .foregroundStyle(.secondary)
@@ -64,7 +64,7 @@ struct RecurringExpensesView: View {
                 }
             }
             .listStyle(.plain)
-        case .error(let message):
+        case .failure(let message):
             Text(message)
                 .font(.subheadline)
                 .foregroundStyle(Theme.Palette.subtleText)
@@ -77,7 +77,7 @@ private struct RecurringRow: View {
     let item: RecurringExpense
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.m) {
+        HStack(spacing: Theme.Spacing.md) {
             Image(systemName: "arrow.triangle.2.circlepath")
                 .foregroundStyle(Theme.Palette.accent)
             VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
