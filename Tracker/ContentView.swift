@@ -11,7 +11,9 @@ struct ContentView: View {
     let container: AppContainer
 
     var body: some View {
-        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+        AppLockGate(viewModel: container.makeAppLockViewModel()) {
+            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+        }
     }
 }
 
