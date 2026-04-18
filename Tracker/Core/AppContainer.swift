@@ -82,6 +82,13 @@ final class AppContainer {
     func makeAppLockViewModel() -> AppLockViewModel {
         AppLockViewModel(service: biometricService, preferences: appLockPreferences)
     }
+
+    func makeRecurringSuggestionsViewModel() -> RecurringSuggestionsViewModel {
+        RecurringSuggestionsViewModel(
+            repository: expenseRepository,
+            dismissedStore: UserDefaultsDismissedSuggestionsStore()
+        )
+    }
 }
 
 private actor NullCurrencyRateCache: CurrencyRateCache {

@@ -76,6 +76,11 @@ struct RootView: View {
             UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
         case .export:
             ExportView(viewModel: container.makeExportViewModel())
+        case .suggestions:
+            RecurringSuggestionsView(
+                viewModel: container.makeRecurringSuggestionsViewModel(),
+                onAccept: { _ in }
+            )
         case .settings:
             ComingSoonView(title: "Settings", systemImage: "gearshape")
         }

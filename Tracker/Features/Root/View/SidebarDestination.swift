@@ -13,6 +13,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
     case recurring
     case upcoming
     case export
+    case suggestions
     case settings
 
     var id: String { rawValue }
@@ -26,6 +27,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
         case .recurring: return "Recurring"
         case .upcoming: return "Upcoming"
         case .export: return "Export"
+        case .suggestions: return "Suggestions"
         case .settings: return "Settings"
         }
     }
@@ -39,6 +41,7 @@ enum SidebarDestination: String, CaseIterable, Identifiable, Hashable {
         case .recurring: return "arrow.triangle.2.circlepath"
         case .upcoming: return "calendar"
         case .export: return "square.and.arrow.up"
+        case .suggestions: return "sparkles"
         case .settings: return "gearshape"
         }
     }
