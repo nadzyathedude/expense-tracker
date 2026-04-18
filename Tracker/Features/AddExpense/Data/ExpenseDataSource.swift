@@ -1,11 +1,6 @@
-//
-//  ExpenseDataSource.swift
-//  Tracker
-//
-
 import Foundation
 
-protocol ExpenseDataSource {
+protocol ExpenseDataSource: Sendable {
     func save(_ expense: Expense) async throws
     func fetchAll() async throws -> [Expense]
 }

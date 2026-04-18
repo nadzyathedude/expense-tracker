@@ -1,8 +1,3 @@
-//
-//  Currency.swift
-//  Tracker
-//
-
 import Foundation
 
 struct Currency: Identifiable, Hashable, Codable {
@@ -22,6 +17,7 @@ extension Currency {
     static let aud = Currency(code: "AUD", symbol: "A$", name: "Australian Dollar")
     static let chf = Currency(code: "CHF", symbol: "Fr", name: "Swiss Franc")
     static let cny = Currency(code: "CNY", symbol: "¥", name: "Chinese Yuan")
+    static let rub = Currency(code: "RUB", symbol: "₽", name: "Russian Ruble")
 
-    static let all: [Currency] = [.usd, .eur, .gbp, .jpy, .cad, .aud, .chf, .cny]
+    static let all: [Currency] = [.usd, .eur, .gbp, .jpy, .cad, .aud, .chf, .cny, .rub]
 }
