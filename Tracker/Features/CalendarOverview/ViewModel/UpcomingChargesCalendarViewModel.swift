@@ -32,7 +32,7 @@ final class UpcomingChargesCalendarViewModel: ObservableObject {
             let charges = useCase.execute(recurring: recurring, horizonDays: 90)
             state = .success(charges)
         } catch {
-            state = .error("Couldn't load upcoming charges.")
+            state = .failure("Couldn't load upcoming charges.")
         }
     }
 

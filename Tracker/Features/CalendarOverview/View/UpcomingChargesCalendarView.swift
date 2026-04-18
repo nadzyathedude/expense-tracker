@@ -21,14 +21,14 @@ struct UpcomingChargesCalendarView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: Theme.Spacing.m) {
+            VStack(alignment: .leading, spacing: Theme.Spacing.md) {
                 monthHeader
                 forecastSummary
                 weekdayHeader
                 grid
                 Spacer()
             }
-            .padding(Theme.Spacing.l)
+            .padding(Theme.Spacing.lg)
             .navigationTitle("Upcoming")
         }
         .task { await viewModel.load() }
