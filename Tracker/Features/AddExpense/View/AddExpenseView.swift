@@ -3,6 +3,7 @@ import SwiftUI
 struct AddExpenseView: View {
     @StateObject private var viewModel: AddExpenseViewModel
     @State private var showSuccess: Bool = false
+    @State private var isScanningReceipt = false
     @FocusState private var focus: Field?
 
     private enum Field {
@@ -28,6 +29,11 @@ struct AddExpenseView: View {
         .onChange(of: viewModel.event) { _, event in
             handle(event: event)
         }
+        .sheet(isPresented: $isScanningReceipt) {
+            ScanReceiptView { receipt in
+                viewModel.apply(receipt)
+            }
+        }
         .task {
             focus = .amount
         }
@@ -40,6 +46,7 @@ struct AddExpenseView: View {
             TitleField(text: $viewModel.title)
                 .focused($focus, equals: .title)
             categoryBlock
+            scanButton
             Spacer(minLength: 0)
             submitButton
         }
@@ -80,6 +87,18 @@ struct AddExpenseView: View {
         .padding(.horizontal, Theme.Spacing.lg)
         .background(Theme.Palette.surface.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.chip, style: .continuous))
+    }
+
+    private var scanButton: some View {
+        Button {
+            isScanningReceipt = true
+        } label: {
+            Label("Scan receipt", systemImage: "doc.viewfinder")
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Theme.Spacing.sm)
+        }
+        .buttonStyle(.bordered)
     }
 
     private var submitButton: some View {
