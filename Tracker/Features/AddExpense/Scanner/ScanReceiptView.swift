@@ -70,7 +70,7 @@ struct ScanReceiptView: View {
     }
 
     private var unavailableState: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Image(systemName: "camera.viewfinder")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
@@ -85,7 +85,7 @@ struct ScanReceiptView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Text("No text captured")
                 .font(.headline)
             Button("Try again") {

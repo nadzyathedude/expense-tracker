@@ -1,17 +1,15 @@
-//
-//  AddExpenseView.swift
-//  Tracker
-//
-
 import SwiftUI
 
 struct AddExpenseView: View {
     @StateObject private var viewModel: AddExpenseViewModel
-    @State private var showSuccess = false
+    @State private var showSuccess: Bool = false
     @State private var isScanningReceipt = false
-    @FocusState private var focusedField: Field?
+    @FocusState private var focus: Field?
 
-    private enum Field { case title, amount }
+    private enum Field {
+        case amount
+        case title
+    }
 
     init(viewModel: @autoclosure @escaping () -> AddExpenseViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel())
@@ -21,62 +19,11 @@ struct AddExpenseView: View {
         ZStack(alignment: .top) {
             Theme.Palette.background.ignoresSafeArea()
 
-            VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-                header
-
-                VStack(spacing: Theme.Spacing.l) {
-                    InputField(
-                        label: "Title",
-                        placeholder: "e.g. Groceries, Coffee",
-                        text: $viewModel.title
-                    )
-                    .focused($focusedField, equals: .title)
-                    .submitLabel(.next)
-                    .onSubmit { focusedField = .amount }
-
-                    InputField(
-                        label: "Amount",
-                        placeholder: "0.00",
-                        text: $viewModel.amountText,
-                        keyboard: .decimalPad
-                    ) {
-                        CurrencyPicker(
-                            selection: $viewModel.currency,
-                            currencies: viewModel.availableCurrencies
-                        )
-                    }
-                    .focused($focusedField, equals: .amount)
-                }
-
-                Button {
-                    isScanningReceipt = true
-                } label: {
-                    Label("Scan receipt", systemImage: "doc.viewfinder")
-                        .font(.subheadline.weight(.semibold))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Theme.Spacing.s)
-                }
-                .buttonStyle(.bordered)
-
-                Spacer(minLength: 0)
-
-                PrimaryButton(
-                    title: "Add Expense",
-                    isLoading: viewModel.state.isLoading,
-                    isEnabled: viewModel.isSubmitEnabled
-                ) {
-                    Task {
-                        focusedField = nil
-                        await viewModel.addExpense()
-                    }
-                }
-            }
-            .padding(.horizontal, Theme.Spacing.l)
-            .padding(.vertical, Theme.Spacing.xl)
+            content
 
             if showSuccess {
-                SuccessToast(message: "Expense added")
-                    .padding(.top, Theme.Spacing.m)
+                SuccessOverlay()
+                    .padding(.top, Theme.Spacing.md)
             }
         }
         .onChange(of: viewModel.event) { _, event in
@@ -87,33 +34,94 @@ struct AddExpenseView: View {
                 viewModel.apply(receipt)
             }
         }
+        .task {
+            focus = .amount
+        }
+    }
+
+    private var content: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+            header
+            heroBlock
+            TitleField(text: $viewModel.title)
+                .focused($focus, equals: .title)
+            scanButton
+            Spacer(minLength: 0)
+            submitButton
+        }
+        .padding(.horizontal, Theme.Spacing.lg)
+        .padding(.vertical, Theme.Spacing.xl)
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
             Text("New Expense")
-                .font(.largeTitle.weight(.bold))
+                .font(Theme.Typography.title)
             Text("Log your spending in seconds")
                 .font(.subheadline)
                 .foregroundStyle(Theme.Palette.subtleText)
         }
     }
 
+    private var heroBlock: some View {
+        VStack(spacing: Theme.Spacing.md) {
+            AmountHeroField(amount: $viewModel.amountText, symbol: viewModel.currency.symbol)
+                .focused($focus, equals: .amount)
+            CurrencyChip(selection: $viewModel.currency, currencies: viewModel.availableCurrencies)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Theme.Spacing.lg)
+        .padding(.horizontal, Theme.Spacing.lg)
+        .background(Theme.Palette.surface.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.chip, style: .continuous))
+    }
+
+    private var scanButton: some View {
+        Button {
+            isScanningReceipt = true
+        } label: {
+            Label("Scan receipt", systemImage: "doc.viewfinder")
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Theme.Spacing.sm)
+        }
+        .buttonStyle(.bordered)
+    }
+
+    private var submitButton: some View {
+        PrimaryButton(
+            title: "Add Expense",
+            isLoading: viewModel.state.isLoading,
+            isEnabled: viewModel.canSubmit
+        ) {
+            focus = nil
+            Task {
+                await viewModel.submit()
+            }
+        }
+    }
+
     private func handle(event: AddExpenseEvent?) {
-        guard let event else { return }
+        guard let event else {
+            return
+        }
         switch event {
-        case .expenseAdded:
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
-                showSuccess = true
-            }
-            Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_600_000_000)
-                withAnimation(.easeOut(duration: 0.25)) {
-                    showSuccess = false
-                }
-            }
-        case .showError:
+        case .added:
+            showSuccessThenHide()
+        case .failed:
             break
+        }
+    }
+
+    private func showSuccessThenHide() {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+            showSuccess = true
+        }
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(1600))
+            withAnimation(.easeOut(duration: 0.25)) {
+                showSuccess = false
+            }
         }
     }
 }
