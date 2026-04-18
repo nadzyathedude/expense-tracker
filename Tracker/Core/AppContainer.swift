@@ -10,6 +10,8 @@ final class AppContainer {
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
     let recurringExpenseRepository: RecurringExpenseRepository
+    let budgetRepository: BudgetRepository
+    let notificationService: NotificationService
     let biometricService: BiometricAuthService
     let appLockPreferences: AppLockPreferencesStore
 
@@ -33,6 +35,9 @@ final class AppContainer {
         self.baseCurrencyStore = UserDefaultsBaseCurrencyStore()
 
         self.recurringExpenseRepository = InMemoryRecurringExpenseRepository()
+
+        self.budgetRepository = InMemoryBudgetRepository()
+        self.notificationService = LocalNotificationService()
 
         self.biometricService = LocalAuthBiometricService()
         self.appLockPreferences = UserDefaultsAppLockPreferencesStore()
@@ -60,6 +65,10 @@ final class AppContainer {
 
     func makeUpcomingChargesCalendarViewModel() -> UpcomingChargesCalendarViewModel {
         UpcomingChargesCalendarViewModel(repository: recurringExpenseRepository)
+    }
+
+    func makeBudgetsViewModel() -> BudgetsViewModel {
+        BudgetsViewModel(repository: budgetRepository, notifications: notificationService)
     }
 
     func makeAppLockViewModel() -> AppLockViewModel {
