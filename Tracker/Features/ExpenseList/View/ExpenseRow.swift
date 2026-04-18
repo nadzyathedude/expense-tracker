@@ -9,7 +9,7 @@ struct ExpenseRow: View {
     let expense: Expense
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.m) {
+        HStack(spacing: Theme.Spacing.md) {
             VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
                 Text(expense.title)
                     .font(.body.weight(.medium))
@@ -18,7 +18,7 @@ struct ExpenseRow: View {
                     .font(.footnote)
                     .foregroundStyle(Theme.Palette.subtleText)
             }
-            Spacer(minLength: Theme.Spacing.m)
+            Spacer(minLength: Theme.Spacing.md)
             Text(Self.formattedAmount(expense.amount, currency: expense.currency))
                 .font(.headline.monospacedDigit())
                 .foregroundStyle(.primary)

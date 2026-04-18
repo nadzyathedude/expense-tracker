@@ -32,8 +32,8 @@ struct ExpenseListView: View {
         case .success(let items):
             List(items) { ExpenseRow(expense: $0) }
                 .listStyle(.plain)
-        case .error(let message):
-            VStack(spacing: Theme.Spacing.m) {
+        case .failure(let message):
+            VStack(spacing: Theme.Spacing.md) {
                 Image(systemName: "exclamationmark.triangle")
                     .font(.largeTitle)
                     .foregroundStyle(.secondary)
@@ -48,7 +48,7 @@ struct ExpenseListView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: Theme.Spacing.m) {
+        VStack(spacing: Theme.Spacing.md) {
             Image(systemName: "tray")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)

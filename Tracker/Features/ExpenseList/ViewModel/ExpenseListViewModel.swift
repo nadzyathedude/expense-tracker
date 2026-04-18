@@ -23,7 +23,7 @@ final class ExpenseListViewModel: ObservableObject {
             let sorted = items.sorted { $0.createdAt > $1.createdAt }
             state = .success(sorted)
         } catch {
-            state = .error("Couldn't load expenses. Pull to retry.")
+            state = .failure("Couldn't load expenses. Pull to retry.")
         }
     }
 }
