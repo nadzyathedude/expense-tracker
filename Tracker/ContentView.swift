@@ -29,6 +29,11 @@ struct ContentView: View {
                     Label("List", systemImage: "list.bullet")
                 }
 
+            AnalyticsView(viewModel: container.makeAnalyticsViewModel())
+                .tabItem {
+                    Label("Analytics", systemImage: "chart.pie.fill")
+                }
+
             ExportView(viewModel: container.makeExportViewModel())
                 .tabItem {
                     Label("Export", systemImage: "square.and.arrow.up")
