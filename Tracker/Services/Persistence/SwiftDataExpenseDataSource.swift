@@ -23,14 +23,27 @@ actor SwiftDataExpenseDataSource: ExpenseDataSource {
     }
 }
 
-enum PersistenceFactory {
+nonisolated enum PersistenceFactory {
     @MainActor
-    static func makeContainer(inMemory: Bool = false) -> ModelContainer {
+    static func makeContainer(cloudKit: Bool = true, inMemory: Bool = false) -> ModelContainer {
         let schema = Schema([ExpenseRecord.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
+        let config: ModelConfiguration
+        if inMemory {
+            config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        } else if cloudKit {
+            config = ModelConfiguration(schema: schema, cloudKitDatabase: .private("iCloud.Dmitriy.Tracker"))
+        } else {
+            config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        }
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
+            if cloudKit {
+                let fallback = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+                if let container = try? ModelContainer(for: schema, configurations: [fallback]) {
+                    return container
+                }
+            }
             fatalError("Could not create ModelContainer: \(error)")
         }
     }
