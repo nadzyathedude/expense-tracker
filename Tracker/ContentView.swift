@@ -18,43 +18,23 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView {
-            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
-                .tabItem {
-                    Label("Add", systemImage: "plus.circle")
+        RootView(container: container)
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    isSettingsPresented = true
+                } label: {
+                    Image(systemName: "gearshape")
+                        .font(.title3)
+                        .foregroundStyle(Theme.Palette.subtleText)
+                        .padding(Theme.Spacing.md)
+                        .contentShape(Rectangle())
                 }
-
-            ExpenseListView(viewModel: container.makeExpenseListViewModel())
-                .tabItem {
-                    Label("List", systemImage: "list.bullet")
-                }
-
-            AnalyticsView(viewModel: container.makeAnalyticsViewModel())
-                .tabItem {
-                    Label("Analytics", systemImage: "chart.pie.fill")
-                }
-
-            ExportView(viewModel: container.makeExportViewModel())
-                .tabItem {
-                    Label("Export", systemImage: "square.and.arrow.up")
-                }
-        }
-        .overlay(alignment: .topTrailing) {
-            Button {
-                isSettingsPresented = true
-            } label: {
-                Image(systemName: "gearshape")
-                    .font(.title3)
-                    .foregroundStyle(Theme.Palette.subtleText)
-                    .padding(Theme.Spacing.md)
-                    .contentShape(Rectangle())
+                .accessibilityLabel(Text("Settings"))
             }
-            .accessibilityLabel(Text("Settings"))
-        }
-        .sheet(isPresented: $isSettingsPresented) {
-            SettingsView(viewModel: settingsViewModel)
-        }
-        .preferredColorScheme(settingsViewModel.theme.colorScheme)
+            .sheet(isPresented: $isSettingsPresented) {
+                SettingsView(viewModel: settingsViewModel)
+            }
+            .preferredColorScheme(settingsViewModel.theme.colorScheme)
     }
 }
 
