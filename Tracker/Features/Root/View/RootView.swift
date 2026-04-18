@@ -20,9 +20,21 @@ struct RootView: View {
                     .frame(maxWidth: 720, maxHeight: .infinity, alignment: .top)
             }
         } else {
-            NavigationStack {
-                detail(for: .add)
-            }
+            compactLayout
+        }
+    }
+
+    private var compactLayout: some View {
+        TabView {
+            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+                .tabItem {
+                    Label("Add", systemImage: "plus.circle")
+                }
+
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
+                .tabItem {
+                    Label("List", systemImage: "list.bullet")
+                }
         }
     }
 
@@ -48,7 +60,7 @@ struct RootView: View {
         case .add:
             AddExpenseView(viewModel: container.makeAddExpenseViewModel())
         case .list:
-            ComingSoonView(title: "Expense List", systemImage: "list.bullet")
+            ExpenseListView(viewModel: container.makeExpenseListViewModel())
         case .analytics:
             ComingSoonView(title: "Analytics", systemImage: "chart.pie")
         case .budgets:
