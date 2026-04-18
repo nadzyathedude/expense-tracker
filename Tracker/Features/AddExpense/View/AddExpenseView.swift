@@ -45,6 +45,16 @@ struct AddExpenseView: View {
                         )
                     }
                     .focused($focusedField, equals: .amount)
+
+                    VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+                        Text("Category")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(Theme.Palette.subtleText)
+                        CategoryPicker(
+                            selection: $viewModel.category,
+                            categories: viewModel.availableCategories
+                        )
+                    }
                 }
 
                 Spacer(minLength: 0)

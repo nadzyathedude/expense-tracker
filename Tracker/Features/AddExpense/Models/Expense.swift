@@ -10,6 +10,7 @@ struct Expense: Identifiable, Hashable, Codable {
     let title: String
     let amount: Decimal
     let currency: Currency
+    let category: Category
     let createdAt: Date
 
     init(
@@ -17,12 +18,14 @@ struct Expense: Identifiable, Hashable, Codable {
         title: String,
         amount: Decimal,
         currency: Currency,
+        category: Category = .other,
         createdAt: Date = Date()
     ) {
         self.id = id
         self.title = title
         self.amount = amount
         self.currency = currency
+        self.category = category
         self.createdAt = createdAt
     }
 }
