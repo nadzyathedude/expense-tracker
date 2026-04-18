@@ -7,7 +7,7 @@ import Foundation
 
 protocol ExpenseRepository {
     func add(_ expense: Expense) async throws
-    func all() async throws -> [Expense]
+    func fetchAll() async throws -> [Expense]
 }
 
 final class DefaultExpenseRepository: ExpenseRepository {
@@ -21,7 +21,7 @@ final class DefaultExpenseRepository: ExpenseRepository {
         try await dataSource.save(expense)
     }
 
-    func all() async throws -> [Expense] {
+    func fetchAll() async throws -> [Expense] {
         try await dataSource.fetchAll()
     }
 }
