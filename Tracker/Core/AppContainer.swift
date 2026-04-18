@@ -1,13 +1,9 @@
-//
-//  AppContainer.swift
-//  Tracker
-//
-
 import Foundation
 
 @MainActor
 final class AppContainer {
     let expenseRepository: ExpenseRepository
+    let settingsRepository: SettingsRepository
     let apiClient: APIClient
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
@@ -15,6 +11,7 @@ final class AppContainer {
     init() {
         let dataSource = InMemoryExpenseDataSource()
         self.expenseRepository = DefaultExpenseRepository(dataSource: dataSource)
+        self.settingsRepository = UserDefaultsSettingsRepository()
 
         let client = URLSessionAPIClient()
         self.apiClient = client
@@ -31,6 +28,10 @@ final class AppContainer {
 
     func makeAddExpenseViewModel() -> AddExpenseViewModel {
         AddExpenseViewModel(repository: expenseRepository)
+    }
+
+    func makeSettingsViewModel() -> SettingsViewModel {
+        SettingsViewModel(repository: settingsRepository)
     }
 
     func makeConvertCurrencyUseCase() -> ConvertCurrencyUseCase {
