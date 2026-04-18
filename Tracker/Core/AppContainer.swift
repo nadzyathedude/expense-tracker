@@ -10,6 +10,8 @@ final class AppContainer {
     let currencyRateRepository: CurrencyRateRepository
     let baseCurrencyStore: BaseCurrencyStore
     let recurringExpenseRepository: RecurringExpenseRepository
+    let budgetRepository: BudgetRepository
+    let notificationService: NotificationService
 
     init(cloudKit: Bool = true, inMemory: Bool = false) {
         let container = PersistenceFactory.makeContainer(cloudKit: cloudKit, inMemory: inMemory)
@@ -31,6 +33,9 @@ final class AppContainer {
         self.baseCurrencyStore = UserDefaultsBaseCurrencyStore()
 
         self.recurringExpenseRepository = InMemoryRecurringExpenseRepository()
+
+        self.budgetRepository = InMemoryBudgetRepository()
+        self.notificationService = LocalNotificationService()
     }
 
     func makeAddExpenseViewModel() -> AddExpenseViewModel {
@@ -55,6 +60,10 @@ final class AppContainer {
 
     func makeUpcomingChargesCalendarViewModel() -> UpcomingChargesCalendarViewModel {
         UpcomingChargesCalendarViewModel(repository: recurringExpenseRepository)
+    }
+
+    func makeBudgetsViewModel() -> BudgetsViewModel {
+        BudgetsViewModel(repository: budgetRepository, notifications: notificationService)
     }
 
     func makeRecurringExpensesViewModel() -> RecurringExpensesViewModel {
