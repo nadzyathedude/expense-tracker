@@ -26,4 +26,8 @@ final class AppContainer {
     func makeSettingsViewModel() -> SettingsViewModel {
         SettingsViewModel(repository: settingsRepository)
     }
+
+    func makeAnalyticsViewModel() -> AnalyticsViewModel {
+        AnalyticsViewModel(repository: expenseRepository)
+    }
 }
