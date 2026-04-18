@@ -72,6 +72,8 @@ struct RootView: View {
             ComingSoonView(title: "Budgets", systemImage: "chart.bar.doc.horizontal")
         case .recurring:
             ComingSoonView(title: "Recurring", systemImage: "arrow.triangle.2.circlepath")
+        case .upcoming:
+            UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
         case .suggestions:
             RecurringSuggestionsView(
                 viewModel: container.makeRecurringSuggestionsViewModel(),
