@@ -69,6 +69,10 @@ final class AppContainer {
     func makeRecurringExpensesViewModel() -> RecurringExpensesViewModel {
         RecurringExpensesViewModel(repository: recurringExpenseRepository)
     }
+
+    func makeExportViewModel() -> ExportViewModel {
+        ExportViewModel(useCase: ExportUseCase(repository: expenseRepository))
+    }
 }
 
 private actor NullCurrencyRateCache: CurrencyRateCache {
