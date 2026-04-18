@@ -53,6 +53,10 @@ final class AppContainer {
         ConvertCurrencyUseCase(repository: currencyRateRepository)
     }
 
+    func makeUpcomingChargesCalendarViewModel() -> UpcomingChargesCalendarViewModel {
+        UpcomingChargesCalendarViewModel(repository: recurringExpenseRepository)
+    }
+
     func makeRecurringExpensesViewModel() -> RecurringExpensesViewModel {
         RecurringExpensesViewModel(repository: recurringExpenseRepository)
     }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum RecurrenceFrequency: String, CaseIterable, Identifiable, Codable {
+nonisolated enum RecurrenceFrequency: String, CaseIterable, Identifiable, Codable, Sendable {
     case weekly
     case monthly
     case yearly
@@ -29,12 +29,11 @@ enum RecurrenceFrequency: String, CaseIterable, Identifiable, Codable {
     }
 }
 
-struct RecurringExpense: Identifiable, Hashable, Codable {
+nonisolated struct RecurringExpense: Identifiable, Hashable, Codable, Sendable {
     let id: UUID
     var title: String
     var amount: Decimal
     var currency: Currency
-    var categoryKey: String
     var frequency: RecurrenceFrequency
     var nextDate: Date
 
@@ -43,7 +42,6 @@ struct RecurringExpense: Identifiable, Hashable, Codable {
         title: String,
         amount: Decimal,
         currency: Currency = .usd,
-        categoryKey: String = "other",
         frequency: RecurrenceFrequency = .monthly,
         nextDate: Date
     ) {
@@ -51,7 +49,6 @@ struct RecurringExpense: Identifiable, Hashable, Codable {
         self.title = title
         self.amount = amount
         self.currency = currency
-        self.categoryKey = categoryKey
         self.frequency = frequency
         self.nextDate = nextDate
     }

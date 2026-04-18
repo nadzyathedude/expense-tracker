@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol RecurringExpenseRepository {
+nonisolated protocol RecurringExpenseRepository: Sendable {
     func fetchAll() async throws -> [RecurringExpense]
     func add(_ recurring: RecurringExpense) async throws
     func update(_ recurring: RecurringExpense) async throws
@@ -13,7 +13,11 @@ protocol RecurringExpenseRepository {
 }
 
 actor InMemoryRecurringExpenseRepository: RecurringExpenseRepository {
-    private var storage: [UUID: RecurringExpense] = [:]
+    private var storage: [UUID: RecurringExpense]
+
+    init(initial: [RecurringExpense] = []) {
+        self.storage = Dictionary(uniqueKeysWithValues: initial.map { ($0.id, $0) })
+    }
 
     func fetchAll() async throws -> [RecurringExpense] {
         Array(storage.values).sorted { $0.nextDate < $1.nextDate }
