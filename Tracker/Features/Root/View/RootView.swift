@@ -71,7 +71,7 @@ struct RootView: View {
         case .budgets:
             BudgetsView(viewModel: container.makeBudgetsViewModel())
         case .recurring:
-            ComingSoonView(title: "Recurring", systemImage: "arrow.triangle.2.circlepath")
+            RecurringExpensesView(viewModel: container.makeRecurringExpensesViewModel())
         case .upcoming:
             UpcomingChargesCalendarView(viewModel: container.makeUpcomingChargesCalendarViewModel())
         case .settings:

@@ -65,6 +65,10 @@ final class AppContainer {
     func makeBudgetsViewModel() -> BudgetsViewModel {
         BudgetsViewModel(repository: budgetRepository, notifications: notificationService)
     }
+
+    func makeRecurringExpensesViewModel() -> RecurringExpensesViewModel {
+        RecurringExpensesViewModel(repository: recurringExpenseRepository)
+    }
 }
 
 private actor NullCurrencyRateCache: CurrencyRateCache {
