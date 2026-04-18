@@ -71,6 +71,10 @@ final class AppContainer {
         BudgetsViewModel(repository: budgetRepository, notifications: notificationService)
     }
 
+    func makeRecurringExpensesViewModel() -> RecurringExpensesViewModel {
+        RecurringExpensesViewModel(repository: recurringExpenseRepository)
+    }
+
     func makeAppLockViewModel() -> AppLockViewModel {
         AppLockViewModel(service: biometricService, preferences: appLockPreferences)
     }
