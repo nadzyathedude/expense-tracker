@@ -11,7 +11,20 @@ struct ContentView: View {
     let container: AppContainer
 
     var body: some View {
-        AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+        TabView {
+            AddExpenseView(viewModel: container.makeAddExpenseViewModel())
+                .tabItem {
+                    Label("Add", systemImage: "plus.circle")
+                }
+
+            RecurringSuggestionsView(
+                viewModel: container.makeRecurringSuggestionsViewModel(),
+                onAccept: { _ in }
+            )
+            .tabItem {
+                Label("Suggestions", systemImage: "sparkles")
+            }
+        }
     }
 }
 

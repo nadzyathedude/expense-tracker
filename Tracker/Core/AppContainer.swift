@@ -17,4 +17,11 @@ final class AppContainer {
     func makeAddExpenseViewModel() -> AddExpenseViewModel {
         AddExpenseViewModel(repository: expenseRepository)
     }
+
+    func makeRecurringSuggestionsViewModel() -> RecurringSuggestionsViewModel {
+        RecurringSuggestionsViewModel(
+            repository: expenseRepository,
+            dismissedStore: UserDefaultsDismissedSuggestionsStore()
+        )
+    }
 }
